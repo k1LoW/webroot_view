@@ -1,21 +1,15 @@
 <?php
-  /* put this file in yourapp/app/libs/ */
+/**
+ * Original is https://github.com/k1LoW/webroot_view
+ */
+/* put this file in yourapp/app/libs/ */
 $_GET['url'] = 'favicon.ico'; // bad hack
 
-require(dirname(__FILE__) . '/../webroot/index.php');
-$config = Configure::read('App');
-extract($config);
-$replace = array('<', '>', '*', '\'', '"');
-$base = str_replace($replace, '', dirname(env('PHP_SELF')));
-if ($webroot === 'webroot') {
-    $base = preg_replace('/' . $webroot . '.*/', '', $base);
-}
-if ($dir === 'app' && $dir === basename($base)) {
-    $base = dirname($base);
-}
-$webroot = $base . '/';
-Router::setRequestInfo(array(array(), array('base' => $base, 'here' => env('PHP_SELF'), 'webroot' => $webroot)));
-require(dirname(__FILE__) . '/../config/routes.php');
+require(dirname(dirname(__FILE__)) . '/webroot/index.php');
+$trace = debug_backtrace();
+$base = str_replace('/' . str_replace(WWW_ROOT, '', $trace[0]['file']), '', env('PHP_SELF'));
+Router::setRequestInfo(array(array(), array('base' => $base, 'here' => env('PHP_SELF'), 'webroot' => $base . '/')));
+require(CONFIGS . 'routes.php');
 
 $view = ClassRegistry::init('view');
 
