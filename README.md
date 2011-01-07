@@ -2,6 +2,10 @@
 
 CakePHP library for use elements and helpers under app/webroot/
 
+## Bad hack ##
+
+This library use bad hack...
+
 ## Installation ##
 
 Put `webroot_view.php` on app/libs in your CakePHP application.
